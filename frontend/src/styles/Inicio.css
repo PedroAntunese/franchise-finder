@@ -4,4 +4,4 @@
 .perfil .texto{flex:1}
 .perfil h2{font-size:1.1rem;margin-bottom:4px}
 .perfil p{font-size:.88rem;line-height:1.5}
-.perfil .acoes{display:flex;gap:10px;flex:none}
+.perfil .acoes{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;flex:none;max-width:270px}

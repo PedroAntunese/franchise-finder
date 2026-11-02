@@ -5,7 +5,7 @@ import CampoTexto from "../components/CampoTexto";
 import usePerfil from "../hooks/usePerfil";
 import { login } from "../services/auth";
 import { validarLogin } from "../utils/validacao";
-import "../styles/Login.css";
+import "../styles/global.css";
 
 export default function Login() {
   const perfil = usePerfil();

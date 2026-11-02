@@ -20,6 +20,9 @@ export default function Inicio() {
           <div className="acoes">
             <Link className="btn btn-primario" to={`/login?perfil=${id}`}>Entrar</Link>
             <Link className="btn btn-contorno" to={`/cadastro?perfil=${id}`}>Criar conta</Link>
+            {id === "franqueador" && (
+              <Link className="btn btn-contorno" to="/cadastro-franquia">Cadastrar franquia</Link>
+            )}
           </div>
         </section>
       ))}

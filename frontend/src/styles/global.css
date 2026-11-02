@@ -49,5 +49,8 @@ a{color:var(--azul-600)}
 .aviso{display:none;background:#fdecea;color:var(--erro);padding:10px 14px;border-radius:8px;font-size:.9rem;margin-bottom:18px}
 .aviso.ok{background:#e7f6ec;color:#1e7a43}
 .aviso.visivel{display:block}
-
+.grupo{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.grupo.tres{grid-template-columns:1fr 2fr 1fr}
+.grupo-titulo{font-size:1.05rem;margin:8px 0 16px}
+@media (max-width:600px){.grupo,.grupo.tres{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
