@@ -1,0 +1,301 @@
+.home {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* LADO ESQUERDO */
+
+.conteudo {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteudo-interno {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 25px;
+}
+
+.subtitulo {
+    margin-top: 0;
+    margin-bottom: 60px;
+}
+
+
+/* LADO DIREITO - PAINEL */
+
+.painel {
+    flex: 1;
+    background-color: #0b3b8f;
+    color: white;
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* IMAGEM DE FUNDO */
+
+.painel-imagem {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+
+/* CAMADA ESCURA SOBRE A IMAGEM */
+
+.painel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(5, 25, 65, 0.2),
+        rgba(5, 25, 65, 0.75)
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+
+/* CONTEÚDO SOBRE A IMAGEM */
+
+.painel-conteudo {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    padding: 35px;
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    color: white;
+}
+
+
+/* LOGO E NOME DA PLATAFORMA */
+
+.painel-topo {
+    width: 100%;
+}
+
+.painel-marca {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+}
+
+.painel .logo-marca {
+    position: static;
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.painel-textos {
+    display: flex;
+    flex-direction: column;
+}
+
+.painel-textos h2 {
+    font-size: 27px;
+    font-weight: 700;
+    margin: 0;
+    color: white;
+}
+
+.painel-textos p {
+    font-size: 14px;
+    margin: 3px 0 0;
+    color: white;
+}
+
+
+/* FRASE INFERIOR */
+
+.painel-frase h1 {
+    font-size: 32px;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.painel-frase p {
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 400px;
+}
+
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 768px) {
+
+    .home {
+        flex-direction: column;
+    }
+
+    .conteudo {
+        padding: 30px 20px;
+    }
+
+    .painel {
+        width: 100%;
+        flex: none;
+        height: 350px;
+    }
+
+    .painel-conteudo {
+        padding: 25px;
+    }
+
+    .painel-textos h2 {
+        font-size: 22px;
+    }
+
+    .painel-frase h1 {
+        font-size: 25px;
+    }
+
+}
+
+
+/* BOTÃO GLOBAL DE AJUDA */
+
+.btn-ajuda-global {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    border-radius: 50%;
+    border: none;
+
+    background-color: #0b3b8f;
+    color: white;
+
+    font-size: 25px;
+    font-weight: bold;
+
+    cursor: pointer;
+    z-index: 100;
+
+    transition: 0.3s;
+}
+
+.btn-ajuda-global:hover {
+    background-color: #082d6d;
+    transform: scale(1.08);
+}
+
+
+/* FUNDO DO POP-UP */
+
+.modal-fundo {
+    position: fixed;
+    inset: 0;
+
+    background-color: rgba(0, 0, 0, 0.55);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1000;
+    padding: 20px;
+}
+
+
+/* JANELA CENTRAL */
+
+.modal-ajuda {
+    position: relative;
+
+    background-color: white;
+    width: 100%;
+    max-width: 500px;
+
+    padding: 35px;
+    border-radius: 15px;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+
+/* TÍTULO */
+
+.modal-ajuda h2 {
+    color: #0b3b8f;
+    font-size: 25px;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.modal-subtitulo {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+
+/* EXPLICAÇÃO DOS PERFIS */
+
+.perfil-explicacao {
+    margin-bottom: 18px;
+    padding: 15px;
+    background-color: #f3f6fc;
+    border-radius: 9px;
+    border-left: 4px solid #0b3b8f;
+}
+
+.perfil-explicacao h3 {
+    color: #0b3b8f;
+    font-size: 17px;
+    margin: 0 0 6px;
+}
+
+.perfil-explicacao p {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+
+/* BOTÃO FECHAR */
+
+.modal-fechar {
+    position: absolute;
+    top: 12px;
+    right: 17px;
+
+    background: none;
+    border: none;
+
+    font-size: 27px;
+    color: #777;
+
+    cursor: pointer;
+}
+
+.modal-fechar:hover {
+    color: #8f0b0b;
+}

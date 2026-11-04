@@ -1,0 +1,72 @@
+.card {
+    padding: 24px;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+}
+
+.card-texto {
+    flex: 1;
+    max-width: 320px;
+}
+
+.card-texto h2 {
+    margin: 0 0 8px 0;
+    color: #0b2a6b;
+}
+
+.card-texto p {
+    margin: 0;
+    color: #4b5563;
+}
+
+.card-botao {
+    display: flex;
+    gap: 10px;
+}
+
+.card-botao-entrar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 85px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #0b3b8f;
+    color: white;
+    background-color: #0b3b8f;
+    cursor: pointer;
+}
+
+.card-botao-criar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #0b3b8f;
+    color: #0b3b8f;
+    background-color: white;
+    cursor: pointer;
+}
+.card-botao-entrar:hover {
+    background-color: #082d6d;
+    box-shadow: 0 4px 12px rgba(11, 59, 143, 0.25);
+}
+.card-icone {
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e8f0fd;
+    border-radius: 16px;
+    color: #0b3b8f;
+    font-size: 28px;
+}
