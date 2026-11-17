@@ -2,7 +2,7 @@
     padding: 24px;
     margin-bottom: 40px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     gap: 24px;
     border: 1px solid #e5e7eb;
@@ -27,6 +27,9 @@
 .card-botao {
     display: flex;
     gap: 10px;
+    margin-left: auto;
+    justify-content: center;
+     width: 205px;
 }
 
 .card-botao-entrar {

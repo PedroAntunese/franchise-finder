@@ -1,0 +1,107 @@
+.titulo {
+    margin-bottom: 15px;
+}
+
+.login {
+    display: flex;
+    min-height: 100vh;
+}
+
+.login-form {
+    flex: 1;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-interno {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.painel {
+    flex: 1;
+    background-color: #0b3b8f;
+    color: white;
+}
+
+.form {
+    width: 100%;
+    height: 45px;
+    padding: 0 12px;
+    border-radius: 5px;
+    border: 1px solid #d1d8e6;
+    font-size: 14px;
+}
+
+/* Faz que aconteça um hover no navegador */
+.form:focus {
+    outline: none;
+    border-color: #0b3b8f;
+    
+}
+.esqueceu-senha {
+    text-decoration: none;
+    color: #0b3b8f;
+    align-self: flex-end
+}
+
+.cadastre-se {
+    text-decoration: none;
+    color: #0b3b8f;
+    align-self: flex-end
+}
+
+.btn-login {
+    width: 100%;
+    height: 45px;
+    background-color: #0b3b8f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btn-login:hover {
+    background-color: #082d6d;
+    box-shadow: 0 4px 12px rgba(11, 59, 143, 0.25);
+}
+.mensagem-erro {
+    color: #d32f2f;
+    font-size: 14px;
+    margin: 0;
+}
+
+.mensagem-sucesso {
+    color: #218838;
+    font-size: 14px;
+    margin: 0;
+}
+
+.mensagem {
+    min-height: 20px;
+}
+
+.mensagem p {
+    margin: 0;
+}
+
+.painel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(5, 25, 65, 0.2),
+        rgba(5, 25, 65, 0.75)
+    );
+    z-index: 1;
+    pointer-events: none;
+}

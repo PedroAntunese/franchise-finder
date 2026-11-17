@@ -18,7 +18,9 @@ function CardPerfil(props) {
                 
                 <div className="card-botao">
                     <button className="card-botao-entrar" onClick={props.onEntrar}>Entrar</button>
-                    <button className="card-botao-criar">Criar conta</button>
+                    {!props.semCadastro && (
+                        <button className="card-botao-criar">Criar conta</button>
+                    )}
                 </div>
 
             </div>

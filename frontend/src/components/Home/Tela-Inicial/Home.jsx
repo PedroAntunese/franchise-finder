@@ -4,8 +4,8 @@ import "./Home.css"
 import { FaRegBuilding } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
-import logo from "../Assets/img-ff-tela1.png";
-import logoMarca from "../Assets/logo-ff.png";
+import logo from "../../Assets/img-ff-tela1.png";
+import logoMarca from "../../Assets/logo-ff.png";
 import { useNavigate } from "react-router-dom";
 
 
@@ -36,6 +36,7 @@ function Home() {
                     titulo="Franqueado"
                     descricao="Conecte-se à rede, acesse novidades e troque experiências com outras unidades."
                     icone={<FiHome />}
+                    semCadastro
                     />
 
                 <CardPerfil
@@ -113,7 +114,7 @@ function Home() {
 
                         <h2>Qual perfil escolher?</h2>
 
-                        <p> sdhishdjaijudaidsjp</p>
+                        <p> Luis é viado</p>
                         <p> sdhishdjaijudaidsjp</p>
                         <p> sdhishdjaijudaidsjp</p>
                         <p> sdhishdjaijudaidsjp</p>
