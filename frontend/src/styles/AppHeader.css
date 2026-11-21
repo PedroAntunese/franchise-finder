@@ -1,0 +1,261 @@
+/* Base das telas internas + cabeçalho azul (AppHeader) */
+
+.fq-page {
+  --fq-azul: #0f3a8c;
+  --fq-azul-escuro: #0b2c6e;
+  --fq-texto: #1f2a44;
+  --fq-cinza: #6b7385;
+  --fq-borda: #e4e7ee;
+  --fq-fundo: #f0f1f4;
+
+  min-height: 100vh;
+  background: var(--fq-fundo);
+  color: var(--fq-texto);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fq-page * {
+  box-sizing: border-box;
+}
+
+.fq-page a {
+  text-decoration: none;
+}
+
+.fq-page h1,
+.fq-page h2,
+.fq-page h3 {
+  font-family: inherit;
+}
+
+.fq-card {
+  background: #ffffff;
+  border: 1px solid var(--fq-borda);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* Elementos compartilhados entre as telas internas */
+
+.fq-tag {
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: #e6ecfa;
+  color: var(--fq-azul);
+  font-size: 11px;
+}
+
+.fq-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #e6ecfa;
+  color: var(--fq-azul);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fq-btn {
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.fq-btn-primario {
+  border: none;
+  background: var(--fq-azul);
+  color: #ffffff;
+}
+
+.fq-btn-primario:hover {
+  background: var(--fq-azul-escuro);
+}
+
+.fq-btn-secundario {
+  border: 1px solid var(--fq-azul);
+  background: #ffffff;
+  color: var(--fq-azul);
+  font-weight: 400;
+}
+
+.fq-btn-secundario:hover {
+  background: #f3f6fd;
+}
+
+.fq-btn-bloco {
+  width: 100%;
+}
+
+.fq-btn-icone {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6ecfa;
+  color: var(--fq-azul);
+  cursor: pointer;
+}
+
+/* Cabeçalho */
+
+.fq-header {
+  background: linear-gradient(90deg, #13306e 0%, #1d4596 100%);
+  color: #ffffff;
+}
+
+.fq-header-inner {
+  max-width: 1100px;
+  height: 56px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.fq-header-extra {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.fq-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.fq-logo em {
+  color: #9cc0ff;
+  font-weight: 400;
+}
+
+.fq-logo-star {
+  font-size: 22px;
+  font-style: normal;
+}
+
+.fq-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 146px;
+  height: 32px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.fq-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.fq-search input::placeholder {
+  color: #ffffff;
+}
+
+.fq-nav {
+  margin-left: auto;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  gap: 4px;
+}
+
+.fq-nav-item {
+  position: relative;
+  min-width: 64px;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #dbe4fb;
+  font-size: 11px;
+  border-bottom: 2px solid transparent;
+}
+
+.fq-nav-item:hover {
+  color: #ffffff;
+}
+
+.fq-nav-item.ativo {
+  color: #ffffff;
+  font-weight: 700;
+  border-bottom-color: #ffffff;
+}
+
+.fq-nav-icon {
+  position: relative;
+  display: flex;
+}
+
+.fq-badge {
+  position: absolute;
+  top: -6px;
+  right: -9px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: #e5484d;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 15px;
+  text-align: center;
+}
+
+.fq-nav-divider {
+  width: 1px;
+  margin: 12px 8px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.fq-avatar-mini {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e6ecfa;
+  color: var(--fq-azul);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .fq-search {
+    display: none;
+  }
+
+  .fq-nav-item {
+    min-width: 0;
+    font-size: 0;
+    gap: 0;
+  }
+}
