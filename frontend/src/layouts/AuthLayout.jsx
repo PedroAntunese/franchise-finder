@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
 
-// Painel azul à esquerda + área de conteúdo à direita (usado nas 3 telas)
+// Área de conteúdo à esquerda + painel azul à direita (usado nas 3 telas)
 export default function AuthLayout({ children }) {
   return (
     <div className="split">
+      <main className="conteudo">{children}</main>
       <aside className="painel">
         <Link className="marca" to="/">
           <img src={logo} alt="" />
@@ -14,7 +15,6 @@ export default function AuthLayout({ children }) {
           </div>
         </Link>
       </aside>
-      <main className="conteudo">{children}</main>
     </div>
   );
 }

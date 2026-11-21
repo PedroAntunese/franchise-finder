@@ -13,8 +13,8 @@ a{color:var(--azul-600)}
 :focus-visible{outline:3px solid #8fb2f5;outline-offset:2px}
 
 /* layout dividido (AuthLayout) */
-.split{display:grid;grid-template-columns:46% 1fr;min-height:100vh}
-.painel{background:var(--azul-700) url("../assets/compass-bg.svg") no-repeat 90% 45%/105% auto;padding:48px 56px;position:sticky;top:0;height:100vh;overflow:hidden}
+.split{display:grid;grid-template-columns:1fr 46%;min-height:100vh}
+.painel{background:var(--azul-700) url("../assets/compass-bg.svg") no-repeat 10% 45%/105% auto;padding:48px 56px;position:sticky;top:0;height:100vh;overflow:hidden}
 .marca{display:flex;align-items:center;gap:14px;color:#fff;text-decoration:none}
 .marca img{width:52px;height:52px}
 .marca strong{font:800 1.9rem var(--fonte-titulo);display:block;line-height:1}
