@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../Assets/img-ff-tela1.png";
 import logoMarca from "../../Assets/logo-ff.png";
 
@@ -12,6 +12,7 @@ function Login() {
     const [senha, setSenha] = useState("");
     const [erro, setErro] = useState("");
     const [sucesso, setSucesso] = useState("");
+    const navigate = useNavigate();
 
     function handleLogin(e) {
         console.log("Email: " + email,
@@ -49,6 +50,9 @@ function Login() {
         setSucesso("Dados preenchidos corretamente!");
 
         console.log("Email:", email.trim());
+
+        // TODO: chamar a API de login (POST /api/auth/login) antes de redirecionar
+        navigate("/feed");
 
     }
     return (

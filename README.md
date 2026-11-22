@@ -172,12 +172,14 @@ O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o
 ### `frontend/`
 
 - `public/index.html`: documento HTML raiz.
-- `src/index.jsx`: ponto de entrada que monta a aplicação React.
-- `src/App.jsx`: componente raiz e rotas.
-- `src/pages/`: telas de Login, Cadastro e Início.
-- `src/styles/`: estilos globais e de cada tela.
-- `src/components/`, `src/layouts/`, `src/hooks/`, `src/services/`, `src/assets/`, `src/utils/`: reservadas para os próximos passos.
-- `src/setupTests.js`: configuração global dos testes.
+- `src/index.js`: ponto de entrada que monta a aplicação React.
+- `src/App.js`: componente raiz e rotas.
+- `src/components/Home/`: telas de entrada (Tela-Inicial, Login e Esqueci-Senha), cada uma com seu CSS.
+- `src/components/Assets/`: imagens usadas nas telas de entrada.
+- `src/components/AppHeader.jsx`, `BannerCafe.jsx`, `Icone.jsx`: componentes compartilhados das telas pós-login.
+- `src/pages/Feed.jsx`: tela inicial depois do login.
+- `src/styles/`: estilos do Feed e do cabeçalho.
+- `src/layouts/`, `src/hooks/`, `src/services/`, `src/assets/`, `src/utils/`: reservadas para os próximos passos.
 
 ## Segurança
 
