@@ -9,9 +9,11 @@ Cada aplicação tem o próprio `package.json` e é instalada e executada separa
 
 ## Requisitos
 
-- Node.js 20 ou superior
-- npm
+- Node.js 24 (LTS)
+- npm 12.2.1. O Node 24 vem com o npm 11, então instale a versão certa com `npm install -g npm@12.2.1`.
 - Acesso ao serviço MySQL do projeto no Aiven (host, porta, usuário, senha, banco e certificado CA)
+
+Use exatamente essas versões do Node e do npm. O CI roda com elas, e versões diferentes do npm geram um `package-lock.json` diferente, o que faz o `npm ci` falhar no GitHub Actions. Confira com `node -v` e `npm -v`.
 
 ## Configuração do backend
 
