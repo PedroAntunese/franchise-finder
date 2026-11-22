@@ -1,4 +1,3 @@
-
 name: CI
 
 on:
@@ -12,10 +11,18 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   backend:
     name: Backend CI
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
       - name: Baixar código
@@ -30,15 +37,20 @@ jobs:
 
       - name: Instalar dependências
         run: npm ci
-        working-directory: backend
 
-      - name: Verificar sintaxe
-        run: node --check src/server.js
-        working-directory: backend
+      - name: Verificar sintaxe de todos os arquivos
+        run: find src -name '*.js' -print0 | xargs -0 -n1 node --check
+
+      - name: Verificar imports
+        run: node -e "import('./src/app.js').then(() => { console.log('imports ok'); process.exit(0); }).catch((e) => { console.error(e); process.exit(1); })"
 
   frontend:
     name: Frontend CI
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
 
     steps:
       - name: Baixar código
@@ -53,18 +65,13 @@ jobs:
 
       - name: Instalar dependências
         run: npm ci
-        working-directory: frontend
 
       - name: Executar testes
         run: npm test -- --watchAll=false --passWithNoTests
-        working-directory: frontend
         env:
           CI: true
-          
-      - name: Gerar build
-        run: npm run build
-        working-directory: frontend
 
       - name: Gerar build
         run: npm run build
-        working-directory: frontend
+        env:
+          CI: true
