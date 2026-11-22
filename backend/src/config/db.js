@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
 
@@ -26,4 +27,27 @@ export async function testarConexao() {
   conn.release();
 }
 
+=======
+import 'dotenv/config';
+import mysql from 'mysql2/promise';
+
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+});
+
+try {
+  const conn = await pool.getConnection();
+  console.log('Conectado ao MySQL!');
+  conn.release();
+} catch (err) {
+  console.error('Erro ao conectar:', err.message);
+  process.exit(1);
+}
+
+>>>>>>> Branch-Matheus
 export default pool;

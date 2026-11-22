@@ -1,25 +1,20 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
 import Inicio from "./pages/Inicio";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
-
+import CadastroFranquia from "./pages/CadastroFranquia";
+import "./styles/global.css";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/inicio" element={<Inicio />} />
-
-        <Route path="/cadastro" element={<Cadastro />} />
-
+        <Route path="/" element={<Inicio />} />
         <Route path="/login" element={<Login />} />
-
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/cadastro-franquia" element={<CadastroFranquia />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
-//https://localhost:3000/login     --  TELA DE LOGIN
-//https://localhost:3000/cadastro  --  TELA DE CADASTRO

@@ -1,0 +1,7 @@
+.perfil{display:flex;align-items:center;gap:20px;border:1px solid var(--borda);border-radius:16px;padding:22px 20px;margin-bottom:16px}
+.perfil .icone{flex:none;width:52px;height:52px;border-radius:12px;background:var(--azul-100);display:grid;place-items:center}
+.perfil .icone svg{width:26px;height:26px;stroke:var(--azul-600);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.perfil .texto{flex:1}
+.perfil h2{font-size:1.1rem;margin-bottom:4px}
+.perfil p{font-size:.88rem;line-height:1.5}
+.perfil .acoes{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;flex:none;max-width:270px}
