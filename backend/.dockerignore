@@ -1,0 +1,13 @@
+# Dependências da máquina local (são instaladas dentro da imagem)
+node_modules
+
+# Segredos: são passados na hora de rodar o container
+.env
+.env.*
+
+# Arquivos que não são necessários para rodar a API
+*.log
+npm-debug.log*
+README.md
+Dockerfile
+.dockerignore
