@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import Icone from "./Icone";
+import { obterUsuario } from "../services/api";
+import { iniciais } from "../utils/usuario";
 import "../styles/AppHeader.css";
 
 const MENU = [
   { id: "inicio", rotulo: "Início", rota: "/feed" },
   { id: "rede", rotulo: "Rede", rota: "/rede" },
-  { id: "franquias", rotulo: "Franquias", rota: "/franquia" },
+  { id: "franquias", rotulo: "Franquias", rota: "/franquias" },
   { id: "mensagens", rotulo: "Mensagens", rota: "/mensagens" },
   { id: "avisos", rotulo: "Avisos", rota: "/avisos", badge: 3 },
 ];
@@ -13,6 +15,8 @@ const MENU = [
 // Cabeçalho azul das telas internas. `ativo` destaca o item do menu;
 // `children` é renderizado dentro da faixa azul, abaixo do menu.
 export default function AppHeader({ ativo, children }) {
+  const usuario = obterUsuario();
+
   return (
     <header className="fq-header">
       <div className="fq-header-inner">
@@ -46,7 +50,7 @@ export default function AppHeader({ ativo, children }) {
           <span className="fq-nav-divider" aria-hidden="true" />
 
           <Link to="/perfil" className="fq-nav-item">
-            <span className="fq-avatar-mini">MP</span>
+            <span className="fq-avatar-mini">{usuario ? iniciais(usuario.nome) : ""}</span>
             Eu
           </Link>
         </nav>

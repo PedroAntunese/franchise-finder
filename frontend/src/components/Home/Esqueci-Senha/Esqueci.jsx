@@ -2,6 +2,7 @@ import "./Esqueci.css";
 import logo from "../../Assets/img-ff-tela1.png";
 import logoMarca from "../../Assets/logo-ff.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 
 function EsqueciSenha() {
@@ -10,10 +11,6 @@ function EsqueciSenha() {
     const [enviado, setEnviado] = useState(false);
 
     function handleEnviar(e) {
-        console.log("Email: " + email)
-        
-    
-
         e.preventDefault();
 
         setErro("");
@@ -30,6 +27,7 @@ function EsqueciSenha() {
             return;
         }
 
+        // TODO: o back-end ainda não tem rota de recuperação de senha nem envio de e-mail.
         setEnviado(true);
     }
     return(
@@ -59,6 +57,8 @@ function EsqueciSenha() {
                     {erro && <p className="mensagem-erro">{erro}</p>}
                     {enviado && <p className="mensagem-sucesso">Enviamos um link para seu email. Confira sua caixa de entrada.</p>}
                 </div>
+
+                <p>Lembrou a senha? <Link className="cadastre-se" to="/login-franqueador">Voltar para o login</Link></p>
 
                 </div>
             </section>

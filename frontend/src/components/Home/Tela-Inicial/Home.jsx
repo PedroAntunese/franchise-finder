@@ -30,6 +30,7 @@ function Home() {
                     descricao="Divulgue sua marca, encontre candidatos e acompanhe sua rede de unidades."
                     icone={<FaRegBuilding />}
                     onEntrar={() => navigate("/login-franqueador")}
+                    onCriar={() => navigate("/cadastro")}
                     />
 
                 <CardPerfil
@@ -43,6 +44,7 @@ function Home() {
                     titulo="Investidor"
                     descricao="Explore marcas e conteúdos da comunidade e conheça o universo das franquias"
                     icone={<FaRegUser />}
+                    onCriar={() => navigate("/cadastro")}
                     />
 
             </div>
@@ -114,10 +116,9 @@ function Home() {
 
                         <h2>Qual perfil escolher?</h2>
 
-                        <p> Luis é viado</p>
-                        <p> sdhishdjaijudaidsjp</p>
-                        <p> sdhishdjaijudaidsjp</p>
-                        <p> sdhishdjaijudaidsjp</p>
+                        <p><strong>Franqueador:</strong> você é dono de uma marca e quer divulgar a franquia e encontrar novos franqueados.</p>
+                        <p><strong>Franqueado:</strong> você já opera uma unidade e quer se conectar à rede da sua marca.</p>
+                        <p><strong>Investidor:</strong> você está procurando uma franquia para investir e quer conhecer as marcas.</p>
 
                     </div>
 

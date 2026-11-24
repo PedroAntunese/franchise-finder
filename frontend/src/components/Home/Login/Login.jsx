@@ -3,6 +3,7 @@ import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../Assets/img-ff-tela1.png";
 import logoMarca from "../../Assets/logo-ff.png";
+import { requisicao, salvarSessao } from "../../../services/api";
 
 
 
@@ -14,12 +15,8 @@ function Login() {
     const [sucesso, setSucesso] = useState("");
     const navigate = useNavigate();
 
-    function handleLogin(e) {
-        console.log("Email: " + email,
-                    "Senha: " + senha)
-    
-
-        e.preventDefault();
+    async function handleLogin(e) {
+        e.preventDefault(); // impede o envio tradicional e o recarregamento da página
 
         setErro("");
         setSucesso("");
@@ -47,13 +44,16 @@ function Login() {
         }
         
 
-        setSucesso("Dados preenchidos corretamente!");
-
-        console.log("Email:", email.trim());
-
-        // TODO: chamar a API de login (POST /api/auth/login) antes de redirecionar
-        navigate("/feed");
-
+        try {
+            const dados = { email: email.trim(), senha: senha };
+            const resposta = await requisicao("/auth/login", "POST", dados);
+            // O servidor entrega um JWT somente depois de verificar o hash da senha.
+            salvarSessao(resposta.token, resposta.usuario);
+            navigate("/feed");
+        } catch (erro) {
+            // A mensagem vem do back-end, por exemplo "Email ou senha inválidos".
+            setErro(erro.message);
+        }
     }
     return (
 
@@ -81,7 +81,7 @@ function Login() {
                     type="password"/>
 
 
-                    <Link className="esqueceu-senha" to="/Esqueci-Senha">Esqueceu a senha?</Link> 
+                    <Link className="esqueceu-senha" to="/esqueci-senha">Esqueceu a senha?</Link>
 
                     <button 
                     className="btn-login" 
@@ -93,7 +93,8 @@ function Login() {
                         {sucesso && <p className="mensagem-sucesso">{sucesso}</p>}
                     </div>
 
-                    <p>Não tem uma conta? <a className="cadastre-se" href="#">Cadastre-se agora</a></p>
+                    <p>Não tem uma conta? <Link className="cadastre-se" to="/cadastro">Cadastre-se agora</Link></p>
+                    <p><Link className="cadastre-se" to="/">Voltar para a escolha de perfil</Link></p>
                 </div>
             </section>
 

@@ -3,14 +3,12 @@ import { Link } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import BannerCafe from "../components/BannerCafe";
 import Icone from "../components/Icone";
+import { obterUsuario, encerrarSessao } from "../services/api";
+import { primeiroNome, iniciais, rotuloTipo } from "../utils/usuario";
 import "../styles/Feed.css";
 
-// Dados fixos por enquanto — depois vêm da API
-const usuario = {
-  nome: "Matheus Prado",
-  primeiroNome: "Matheus",
-  iniciais: "MP",
-  perfil: "Investidor",
+// Nome, e-mail e tipo vêm do login. O resto ainda é fixo: a API não tem esses dados.
+const perfilFixo = {
   cidade: "Sorocaba, SP",
   marcasSalvas: 12,
   visitas: 32,
@@ -122,13 +120,15 @@ function Post({ post }) {
 
 export default function Feed() {
   const [aba, setAba] = useState("para-voce");
+  // A rota /feed é protegida em App.js, então aqui sempre existe um usuário salvo.
+  const usuario = obterUsuario();
 
   return (
     <div className="fq-page">
       <AppHeader ativo="inicio">
         <div className="fd-boas-vindas">
           <p>
-            {saudacao()}, {usuario.primeiroNome}
+            {saudacao()}, {primeiroNome(usuario.nome)}
           </p>
           <h1>Franquias para você em Sorocaba e região</h1>
         </div>
@@ -163,19 +163,19 @@ export default function Feed() {
               <span aria-hidden="true">✦</span>
             </div>
             <div className="fd-perfil-corpo">
-              <span className="fd-perfil-avatar">{usuario.iniciais}</span>
+              <span className="fd-perfil-avatar">{iniciais(usuario.nome)}</span>
               <strong>{usuario.nome}</strong>
-              <small>{usuario.perfil}</small>
-              <small>{usuario.cidade}</small>
+              <small>{rotuloTipo(usuario.tipo)}</small>
+              <small>{perfilFixo.cidade}</small>
 
               <dl className="fd-perfil-numeros">
                 <div>
                   <dt>Marcas salvas</dt>
-                  <dd>{usuario.marcasSalvas}</dd>
+                  <dd>{perfilFixo.marcasSalvas}</dd>
                 </div>
                 <div>
                   <dt>Visitas</dt>
-                  <dd>{usuario.visitas}</dd>
+                  <dd>{perfilFixo.visitas}</dd>
                 </div>
               </dl>
             </div>
@@ -183,8 +183,8 @@ export default function Feed() {
 
           <section className="fq-card fd-box">
             <h2>Seu interesse</h2>
-            <p>{usuario.interesse.segmentos}</p>
-            <p>{usuario.interesse.faixa}</p>
+            <p>{perfilFixo.interesse.segmentos}</p>
+            <p>{perfilFixo.interesse.faixa}</p>
           </section>
         </aside>
 
@@ -218,7 +218,9 @@ export default function Feed() {
           <footer className="fd-rodape">
             <nav>
               <Link to="/sobre">Sobre</Link> · <Link to="/ajuda">Ajuda</Link> ·{" "}
-              <Link to="/privacidade">Privacidade</Link>
+              <Link to="/privacidade">Privacidade</Link> ·{" "}
+              {/* Sair apaga o token do navegador; ele continua válido até expirar. */}
+              <Link to="/" onClick={encerrarSessao}>Sair</Link>
             </nav>
             <p>Franchise Finder © {new Date().getFullYear()}</p>
           </footer>

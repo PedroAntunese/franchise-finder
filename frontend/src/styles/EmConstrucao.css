@@ -1,0 +1,41 @@
+.em-construcao {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: #f0f1f4;
+}
+
+.em-construcao-cartao {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px;
+    border-radius: 12px;
+    background-color: white;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(15, 58, 140, 0.08);
+}
+
+.em-construcao-cartao h1 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    color: #1f2a44;
+}
+
+.em-construcao-cartao p {
+    margin: 0 0 24px;
+    color: #6b7385;
+}
+
+.em-construcao-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.em-construcao-acoes a {
+    color: #0b3b8f;
+    text-decoration: none;
+}
