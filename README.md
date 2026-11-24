@@ -9,8 +9,8 @@ Cada aplicação tem o próprio `package.json` e é instalada e executada separa
 
 ## Requisitos
 
-- Node.js 24 (LTS)
-- npm 12.2.1. O Node 24 vem com o npm 11, então instale a versão certa com `npm install -g npm@12.2.1`.
+- Node.js 26 (LTS)
+- npm 12.2.1. Depois de instalar o Node, instale a versão exata do npm com `npm install -g npm@12.2.1`.
 - Acesso ao serviço MySQL do projeto no Aiven (host, porta, usuário, senha, banco e certificado CA)
 
 Use exatamente essas versões do Node e do npm. O CI roda com elas, e versões diferentes do npm geram um `package-lock.json` diferente, o que faz o `npm ci` falhar no GitHub Actions. Confira com `node -v` e `npm -v`.
@@ -77,7 +77,10 @@ O Create React App também só lê o `.env` da própria pasta. Crie `frontend/.e
 
 ```
 REACT_APP_API_URL=http://localhost:3001/api
+REACT_APP_SIMULAR_API=true
 ```
+
+Com `REACT_APP_SIMULAR_API=true`, o login e o cadastro respondem com dados falsos, sem chamar o back-end (veja `src/services/api_simulada.js`). Isso permite testar as telas enquanto as tabelas do banco não existem: qualquer e-mail válido com uma senha de 8 caracteres e um caractere especial entra. Para usar a API de verdade, troque para `false` e reinicie o `npm start`, porque o Create React App só lê o `.env` ao iniciar.
 
 ### 2. Instale as dependências
 
@@ -180,8 +183,12 @@ O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o
 - `src/components/Assets/`: imagens usadas nas telas de entrada.
 - `src/components/AppHeader.jsx`, `BannerCafe.jsx`, `Icone.jsx`: componentes compartilhados das telas pós-login.
 - `src/pages/Feed.jsx`: tela inicial depois do login.
-- `src/styles/`: estilos do Feed e do cabeçalho.
-- `src/layouts/`, `src/hooks/`, `src/services/`, `src/assets/`, `src/utils/`: reservadas para os próximos passos.
+- `src/pages/EmConstrucao.jsx`: tela provisória dos links que ainda não têm página, e da página não encontrada.
+- `src/services/api.js`: `requisicao()` faz o `fetch`, envia JSON e o token. Também guarda e apaga a sessão no `localStorage`.
+- `src/services/api_simulada.js`: respostas falsas usadas quando `REACT_APP_SIMULAR_API=true`.
+- `src/utils/usuario.js`: nome, iniciais e rótulo do tipo do usuário logado.
+- `src/styles/`: estilos do Feed, do cabeçalho e da tela provisória.
+- `src/layouts/`, `src/hooks/`, `src/assets/`: reservadas para os próximos passos.
 
 ## Segurança
 

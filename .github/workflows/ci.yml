@@ -13,7 +13,7 @@ permissions:
 
 # Mesmas versões usadas pelo time. Se mudar aqui, atualize o README.
 env:
-  NODE_VERSION: 24
+  NODE_VERSION: 26
   NPM_VERSION: 12.2.1
 
 concurrency:
@@ -51,6 +51,9 @@ jobs:
 
       - name: Verificar imports
         run: node -e "import('./src/app.js').then(() => { console.log('imports ok'); process.exit(0); }).catch((e) => { console.error(e); process.exit(1); })"
+
+      - name: Gerar imagem Docker
+        run: docker build -t franchise-finder-backend:ci .
 
   frontend:
     name: Frontend CI
