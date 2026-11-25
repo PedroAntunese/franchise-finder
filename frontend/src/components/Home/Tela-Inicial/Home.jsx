@@ -29,14 +29,15 @@ function Home() {
                     titulo="Franqueador"
                     descricao="Divulgue sua marca, encontre candidatos e acompanhe sua rede de unidades."
                     icone={<FaRegBuilding />}
-                    onEntrar={() => navigate("/login-franqueador")}
-                    onCriar={() => navigate("/cadastro")}
+                    onEntrar={() => navigate("/login?perfil=franqueador")}
+                    onCriar={() => navigate("/cadastro?perfil=franqueador")}
                     />
 
                 <CardPerfil
                     titulo="Franqueado"
                     descricao="Conecte-se à rede, acesse novidades e troque experiências com outras unidades."
                     icone={<FiHome />}
+                    onEntrar={() => navigate("/login?perfil=franqueado")}
                     semCadastro
                     />
 
@@ -44,7 +45,8 @@ function Home() {
                     titulo="Investidor"
                     descricao="Explore marcas e conteúdos da comunidade e conheça o universo das franquias"
                     icone={<FaRegUser />}
-                    onCriar={() => navigate("/cadastro")}
+                    onEntrar={() => navigate("/login?perfil=investidor")}
+                    onCriar={() => navigate("/cadastro?perfil=investidor")}
                     />
 
             </div>

@@ -179,7 +179,12 @@ O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o
 - `public/index.html`: documento HTML raiz.
 - `src/index.js`: ponto de entrada que monta a aplicação React.
 - `src/App.js`: componente raiz e rotas.
-- `src/components/Home/`: telas de entrada (Tela-Inicial, Login e Esqueci-Senha), cada uma com seu CSS.
+- `src/components/Home/`: Tela-Inicial (escolha de perfil) e Esqueci-Senha, cada uma com seu CSS. A pasta `Login/` não é mais usada como tela; o `Login.css` dela ainda é importado pelo Esqueci-Senha.
+- `src/pages/Login.jsx` e `src/pages/Cadastro.jsx`: telas de Entrar e Criar conta de todos os perfis. O perfil vem na URL (`/login?perfil=franqueador`, `franqueado` ou `investidor`) e é lido por `src/hooks/usePerfil.js` a partir de `src/utils/perfis.js`.
+- `src/layouts/AuthLayout.jsx`: layout das telas de Entrar e Criar conta. Os estilos ficam em `src/styles/global.css`, com todas as regras dentro de `.split` para não afetar as outras telas.
+- `src/components/CampoTexto.jsx` e `CamposEndereco.jsx`: campos dos formulários de Entrar e Criar conta. O endereço é preenchido pelo CEP (`src/services/cep.js`, ViaCEP).
+- `src/services/auth.js`: `login()` e `cadastrar()`, que usam a `requisicao()` de `api.js`.
+- `src/utils/validacao.js`, `validacaoFranquia.js` e `mascaras.js`: validação e máscaras (CPF, CNPJ, CEP) dos formulários.
 - `src/components/Assets/`: imagens usadas nas telas de entrada.
 - `src/components/AppHeader.jsx`, `BannerCafe.jsx`, `Icone.jsx`: componentes compartilhados das telas pós-login.
 - `src/pages/Feed.jsx`: tela inicial depois do login.
@@ -187,8 +192,8 @@ O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o
 - `src/services/api.js`: `requisicao()` faz o `fetch`, envia JSON e o token. Também guarda e apaga a sessão no `localStorage`.
 - `src/services/api_simulada.js`: respostas falsas usadas quando `REACT_APP_SIMULAR_API=true`.
 - `src/utils/usuario.js`: nome, iniciais e rótulo do tipo do usuário logado.
-- `src/styles/`: estilos do Feed, do cabeçalho e da tela provisória.
-- `src/layouts/`, `src/hooks/`, `src/assets/`: reservadas para os próximos passos.
+- `src/styles/`: estilos do Feed, do cabeçalho, da tela provisória e das telas de Entrar e Criar conta.
+- `src/assets/`: logo e fundo do painel das telas de Entrar e Criar conta.
 
 ## Segurança
 

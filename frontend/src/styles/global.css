@@ -1,0 +1,72 @@
+/* Estilos das telas de Entrar e Criar conta (vindas da branch feature/telas-login-cadastro).
+   No Create React App todo CSS importado vale para o site inteiro. Por isso cada regra
+   começa com .split, a classe raiz do AuthLayout: assim estas telas não mudam a Home,
+   o Esqueci-senha e o Feed, e as regras dessas telas não entram aqui. */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@700;800&display=swap");
+
+:root{
+  --azul-900:#0c2a63; --azul-700:#0a3a8f; --azul-600:#1d5bd6; --azul-100:#e8f0fd;
+  --texto:#43506b; --borda:#dde5f2; --erro:#c0392b;
+  --fonte-titulo:"Plus Jakarta Sans",system-ui,sans-serif;
+  --fonte-corpo:"DM Sans",system-ui,sans-serif;
+}
+.split,.split *{box-sizing:border-box;margin:0}
+.split{font-family:var(--fonte-corpo);color:var(--texto);background:#fff;min-height:100vh}
+.split h1,.split h2,.split h3{font-family:var(--fonte-titulo);color:var(--azul-900)}
+.split a{color:var(--azul-600)}
+.split :focus-visible{outline:3px solid #8fb2f5;outline-offset:2px}
+
+/* layout dividido (AuthLayout) */
+.split{display:grid;grid-template-columns:1fr 46%}
+.split .painel{background:var(--azul-700) url("../assets/compass-bg.svg") no-repeat 10% 45%/105% auto;padding:48px 56px;position:sticky;top:0;height:100vh;overflow:hidden}
+.split .marca{display:flex;align-items:center;gap:14px;color:#fff;text-decoration:none}
+.split .marca img{width:52px;height:52px}
+.split .marca strong{font:800 1.9rem var(--fonte-titulo);display:block;line-height:1}
+.split .marca span{font-size:.85rem;color:#cfdcf7}
+.split .conteudo{padding:64px 8vw 48px;max-width:820px;width:100%}
+.split .conteudo>h1{font-size:2rem;margin-bottom:8px}
+.split .sub{margin-bottom:32px}
+
+/* A Home (Home.css) também usa .conteudo e .painel. Aqui desfazemos o que ela
+   aplicaria nestas telas: o flex centralizado e a camada escura sobre o painel. */
+.split .conteudo{display:block;flex:none}
+.split .painel::after{content:none}
+
+/* botões */
+.split .btn{display:inline-flex;align-items:center;justify-content:center;font:600 .95rem var(--fonte-corpo);padding:11px 20px;border-radius:8px;border:1.5px solid var(--azul-600);text-decoration:none;cursor:pointer;transition:background .15s}
+.split .btn-primario{background:var(--azul-600);color:#fff}
+.split .btn-primario:hover{background:#1749ad}
+.split .btn-primario:disabled{opacity:.7;cursor:wait}
+.split .btn-contorno{background:#fff;color:var(--azul-600)}
+.split .btn-contorno:hover{background:var(--azul-100)}
+.split .btn-bloco{width:100%;padding:13px}
+
+/* formulários (Login e Cadastro) */
+.split .voltar{display:inline-block;margin-bottom:24px;font-size:.9rem;text-decoration:none}
+.split .voltar:hover{text-decoration:underline}
+.split .etiqueta-perfil{display:inline-block;background:var(--azul-100);color:var(--azul-600);font-weight:600;font-size:.85rem;padding:4px 12px;border-radius:99px;margin-bottom:14px}
+.split .campo{margin-bottom:18px}
+.split .campo label{display:block;font-weight:600;font-size:.9rem;color:var(--azul-900);margin-bottom:6px}
+.split .campo input{width:100%;font:inherit;padding:12px 14px;border:1.5px solid var(--borda);border-radius:8px;color:var(--azul-900)}
+.split .campo input:focus{border-color:var(--azul-600);outline:none;box-shadow:0 0 0 3px #d6e4fc}
+.split .campo.invalido input{border-color:var(--erro)}
+.split .erro{color:var(--erro);font-size:.82rem;margin-top:5px}
+.split .senha{position:relative}
+.split .senha input{padding-right:78px}
+.split .senha button{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--azul-600);font:600 .85rem var(--fonte-corpo);cursor:pointer;padding:6px 8px}
+.split .rodape-form{margin-top:22px;text-align:center;font-size:.92rem}
+.split .aviso{display:none;background:#fdecea;color:var(--erro);padding:10px 14px;border-radius:8px;font-size:.9rem;margin-bottom:18px}
+.split .aviso.ok{background:#e7f6ec;color:#1e7a43}
+.split .aviso.visivel{display:block}
+.split .grupo{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.split .grupo.tres{grid-template-columns:1fr 2fr 1fr}
+.split .grupo-titulo{font-size:1.05rem;margin:8px 0 16px}
+/* Classes usadas no Login e no Cadastro que não tinham estilo na branch
+   (o "Manter conectado" ficava colado no "Esqueci a senha", e o checkbox no texto dos termos). */
+.split .linha{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:-4px 0 20px;font-size:.9rem}
+.split .lembrar{display:flex;align-items:center;gap:8px;cursor:pointer}
+.split .check{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;font-size:.9rem;cursor:pointer}
+.split .check input{margin-top:3px}
+.split .erro-termos{margin:-14px 0 16px}
+@media (max-width:600px){.split .grupo,.split .grupo.tres{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.split *{transition:none!important}}

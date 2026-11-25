@@ -1,14 +1,18 @@
+import "../Login/Login.css"; // .mensagem-erro, .mensagem-sucesso e .cadastre-se vêm daqui
 import "./Esqueci.css";
 import logo from "../../Assets/img-ff-tela1.png";
 import logoMarca from "../../Assets/logo-ff.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import usePerfil from "../../../hooks/usePerfil";
 
 
 function EsqueciSenha() {
     const [email, setEmail] = useState("");
     const [erro, setErro] = useState("");
     const [enviado, setEnviado] = useState(false);
+    // Volta para o login do mesmo perfil de onde a pessoa veio (?perfil=...).
+    const perfil = usePerfil();
 
     function handleEnviar(e) {
         e.preventDefault();
@@ -58,7 +62,7 @@ function EsqueciSenha() {
                     {enviado && <p className="mensagem-sucesso">Enviamos um link para seu email. Confira sua caixa de entrada.</p>}
                 </div>
 
-                <p>Lembrou a senha? <Link className="cadastre-se" to="/login-franqueador">Voltar para o login</Link></p>
+                <p>Lembrou a senha? <Link className="cadastre-se" to={"/login?perfil=" + perfil.id}>Voltar para o login</Link></p>
 
                 </div>
             </section>
