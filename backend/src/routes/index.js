@@ -1,15 +1,10 @@
-import { Router } from 'express';
-import authRoutes from './auth.routes.js';
-import usuarioRoutes from './usuarios.routes.js';
+// Junta todas as rotas sob /api. Novas áreas (franquias, mensagens...) entram aqui.
+const { Router } = require("express");
+const auth = require("./auth");
 
-const router = Router();
+const rotas = Router();
+rotas.get("/saude", (req, res) => res.json({ ok: true }));
+rotas.use("/auth", auth);
+// rotas.use("/franquias", autenticacao, franquias);
 
-// Usada pelo Docker e pelo deploy para saber se a API está no ar
-router.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
-router.use('/auth', authRoutes);
-router.use('/usuarios', usuarioRoutes);
-
-export default router;
+module.exports = rotas;
