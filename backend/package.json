@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "migrate": "knex migrate:latest",
+    "migrate:status": "knex migrate:status",
+    "migrate:rollback": "knex migrate:rollback",
+    "migrate:make": "knex migrate:make -x js"
   },
   "dependencies": {
     "bcryptjs": "3.0.3",
@@ -13,6 +17,7 @@
     "dotenv": "18.0.10",
     "express": "5.3.0",
     "jsonwebtoken": "9.0.3",
+    "knex": "3.3.0",
     "mysql2": "3.24.6"
   }
 }

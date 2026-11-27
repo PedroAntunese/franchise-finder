@@ -5,7 +5,7 @@ export async function respostaSimulada(url, metodo, dados) {
     if (url === "/auth/login" && metodo === "POST") {
         return {
             token: "token-simulado",
-            usuario: { id: 1, nome: "Usuário Teste", email: dados.email, tipo: "franquia" }
+            usuario: { id: 1, nome: "Usuário Teste", email: dados.email, tipo: "franqueador" }
         };
     }
     if (url === "/auth/cadastro" && metodo === "POST") {

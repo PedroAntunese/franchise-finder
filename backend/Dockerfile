@@ -16,6 +16,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY package.json ./
 COPY src ./src
+# Migrations vão na imagem para rodar com: docker run --env-file .env <imagem> npm run migrate
+COPY knexfile.js ./
+COPY migrations ./migrations
 
 # Roda sem privilégios de administrador
 USER node

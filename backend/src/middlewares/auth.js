@@ -22,7 +22,7 @@ export function apenasProprio(req, res, next) {
   next();
 }
 
-// Uso: router.get('/x', autenticar, autorizar('franquia'), controller.x)
+// Uso: router.get('/x', autenticar, autorizar('franqueador'), controller.x)
 export function autorizar(...tiposPermitidos) {
   return (req, res, next) => {
     if (!tiposPermitidos.includes(req.usuario.tipo)) {

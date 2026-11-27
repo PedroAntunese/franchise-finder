@@ -29,6 +29,21 @@ jobs:
       run:
         working-directory: backend
 
+    # MySQL vazio, criado só para testar as migrations. Nunca usa o banco do Aiven.
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ROOT_PASSWORD: ci
+          MYSQL_DATABASE: franchise_finder_ci
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -pci"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
     steps:
       - name: Baixar código
         uses: actions/checkout@v4
@@ -47,10 +62,41 @@ jobs:
         run: npm ci
 
       - name: Verificar sintaxe de todos os arquivos
-        run: find src -name '*.js' -print0 | xargs -0 -n1 node --check
+        run: find src migrations knexfile.js -name '*.js' -print0 | xargs -0 -n1 node --check
 
       - name: Verificar imports
         run: node -e "import('./src/app.js').then(() => { console.log('imports ok'); process.exit(0); }).catch((e) => { console.error(e); process.exit(1); })"
+
+      - name: Aplicar migrations num banco vazio
+        env: &mysql-ci
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_USER: root
+          DB_PASSWORD: ci
+          DB_NAME: franchise_finder_ci
+        run: |
+          npm run migrate
+          npm run migrate:status
+
+      - name: Conferir tabelas criadas
+        env: *mysql-ci
+        run: |
+          node --input-type=module -e "
+          import db from './src/config/db.js';
+          const esperadas = ['usuarios', 'franqueadores', 'franqueados'];
+          const [linhas] = await db.query('SELECT table_name AS nome FROM information_schema.tables WHERE table_schema = DATABASE()');
+          const existentes = linhas.map((l) => l.nome);
+          const faltando = esperadas.filter((t) => !existentes.includes(t));
+          await db.end();
+          if (faltando.length) { console.error('Tabelas faltando:', faltando.join(', ')); process.exit(1); }
+          console.log('Tabelas ok:', esperadas.join(', '));
+          "
+
+      - name: Desfazer e reaplicar migrations
+        env: *mysql-ci
+        run: |
+          npm run migrate:rollback
+          npm run migrate
 
       - name: Gerar imagem Docker
         run: docker build -t franchise-finder-backend:ci .
