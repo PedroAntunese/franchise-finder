@@ -83,7 +83,7 @@ jobs:
         run: |
           node --input-type=module -e "
           import db from './src/config/db.js';
-          const esperadas = ['usuarios', 'franquias', 'franqueados'];
+          const esperadas = ['usuarios', 'franqueadores', 'franqueados'];
           const [linhas] = await db.query('SELECT table_name AS nome FROM information_schema.tables WHERE table_schema = DATABASE()');
           const existentes = linhas.map((l) => l.nome);
           const faltando = esperadas.filter((t) => !existentes.includes(t));

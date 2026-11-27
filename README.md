@@ -98,7 +98,7 @@ cd backend
 npm run migrate
 ```
 
-Num banco vazio, isso cria as tabelas `usuarios`, `franquias` e `franqueados`. O Knex registra na tabela `knex_migrations` o que já rodou em cada banco, então rodar de novo só aplica as migrations novas.
+Num banco vazio, isso cria as tabelas `usuarios`, `franqueadores` e `franqueados`. O Knex registra na tabela `knex_migrations` o que já rodou em cada banco, então rodar de novo só aplica as migrations novas.
 
 | Comando | O que faz |
 |---|---|
@@ -152,13 +152,25 @@ Todos os endpoints ficam sob `http://localhost:3001/api`.
 
 | Método | Rota | Autenticação | Descrição |
 |---|---|---|---|
-| `POST` | `/auth/cadastro` | Não | Cadastra uma conta de `franquia` ou `franqueado`. |
+| `POST` | `/auth/cadastro` | Não | Cria uma conta de `franqueador`, `franqueado` ou `investidor` (veja abaixo o que cada um envia). |
 | `POST` | `/auth/login` | Não | Retorna o token JWT e os dados do usuário. |
 | `GET` | `/auth/eu` | Sim | Dados do usuário logado. Serve para conferir se o token ainda vale. |
 | `GET` | `/usuarios` | Sim | Lista os usuários. |
 | `GET` | `/usuarios/:id` | Sim | Busca um usuário pelo id. |
 | `PUT` | `/usuarios/:id` | Sim, só a própria conta | Atualiza nome e e-mail. |
 | `DELETE` | `/usuarios/:id` | Sim, só a própria conta | Remove a conta. |
+
+### O que o cadastro espera
+
+Todo cadastro envia `tipo`, `nome`, `email` e `senha` (mínimo de 8 caracteres). Cada perfil acrescenta os campos do próprio formulário:
+
+| `tipo` | Campos a mais | Onde fica gravado |
+|---|---|---|
+| `franqueador` | `sobrenome`, `idade` (18+), `cpf`, `cep`, `rua`, `numero`, `complemento` (opcional), `bairro`, `cidade`, `estado` (sigla) | `usuarios` + `franqueadores` |
+| `franqueado` | `nomeUnidade` | `usuarios` + `franqueados` |
+| `investidor` | nenhum | só `usuarios` |
+
+As regras ficam em `backend/src/services/auth.service.js` e as gravações, em `backend/src/repositories/usuario.repository.js`. Para pedir um campo novo no cadastro, mude os dois arquivos e crie uma migration para a coluna.
 
 Nas rotas autenticadas, envie o token no cabeçalho `Authorization: Bearer <token>`. Todo erro volta como JSON no formato `{ "erro": "mensagem" }`, inclusive rota inexistente (404).
 
@@ -177,7 +189,7 @@ Nas rotas autenticadas, envie o token no cabeçalho `Authorization: Bearer <toke
 
 Cada pull request e cada push na `main` rodam o workflow `.github/workflows/ci.yml` no GitHub Actions:
 
-- **Backend:** instala as dependências, verifica o código e roda `npm run migrate` num MySQL vazio criado só para o teste, conferindo que as tabelas `usuarios`, `franquias` e `franqueados` existem no final.
+- **Backend:** instala as dependências, verifica o código e roda `npm run migrate` num MySQL vazio criado só para o teste, conferindo que as tabelas `usuarios`, `franqueadores` e `franqueados` existem no final.
 - **Frontend:** instala as dependências, roda os testes e gera o build de produção.
 
 O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o resultado aparece no pull request e na aba **Actions** do repositório.

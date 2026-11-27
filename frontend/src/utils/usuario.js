@@ -1,5 +1,5 @@
 // Funções de apresentação do usuário logado, usadas no cabeçalho e no Feed.
-const ROTULOS_TIPO = { franquia: "Franqueador", franqueado: "Franqueado" };
+const ROTULOS_TIPO = { franqueador: "Franqueador", franqueado: "Franqueado", investidor: "Investidor" };
 
 export function primeiroNome(nome) { return nome.split(" ")[0]; }
 

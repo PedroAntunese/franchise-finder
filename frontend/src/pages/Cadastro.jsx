@@ -51,7 +51,7 @@ export default function Cadastro() {
             email: v.email, senha: v.senha, cep: somenteDigitos(v.cep), rua: v.rua, bairro: v.bairro,
             complemento: v.complemento, numero: v.numero, cidade: v.cidade, estado: v.estado,
           }
-        : { nome: v.nome, email: v.email, extra: v.extra, senha: v.senha };
+        : { nome: v.nome, email: v.email, senha: v.senha, nomeUnidade: v.extra }; // nomeUnidade: só o franqueado preenche
       await cadastrar({ ...dados, perfil: perfil.id });
       setAviso({ texto: "Conta criada! Redirecionando para o login...", ok: true });
       setTimeout(() => navigate(`/login?perfil=${perfil.id}`), 1200);

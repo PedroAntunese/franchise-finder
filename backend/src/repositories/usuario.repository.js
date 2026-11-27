@@ -1,66 +1,77 @@
+// Única parte do código que conversa com o banco sobre usuários. Aqui só tem SQL, nenhuma regra.
 import db from '../config/db.js';
 
-const CAMPOS = 'id, nome, email, tipo, criado_em'; // nunca devolve senha_hash
+// Colunas que podem sair da API. A senha_hash nunca entra nesta lista.
+const COLUNAS_PUBLICAS = 'id, nome, email, tipo, criado_em';
 
 export async function listar() {
-  const [rows] = await db.query(`SELECT ${CAMPOS} FROM usuarios ORDER BY id DESC`);
-  return rows;
+  const [linhas] = await db.query(`SELECT ${COLUNAS_PUBLICAS} FROM usuarios ORDER BY id DESC`);
+  return linhas;
 }
 
 export async function buscarPorId(id) {
-  const [rows] = await db.query(`SELECT ${CAMPOS} FROM usuarios WHERE id = ?`, [id]);
-  return rows[0];
+  const [linhas] = await db.query(`SELECT ${COLUNAS_PUBLICAS} FROM usuarios WHERE id = ?`, [id]);
+  return linhas[0];
 }
 
-// Usado só no login: aqui o hash vem junto para comparar a senha
+// Usado só no login: aqui o hash da senha vem junto, para comparar.
 export async function buscarPorEmail(email) {
-  const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
-  return rows[0];
+  const [linhas] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+  return linhas[0];
 }
 
-export async function atualizar(id, { nome, email }) {
-  const [result] = await db.query(
-    'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?',
-    [nome, email, id]
-  );
-  return result.affectedRows > 0;
-}
+// Grava o usuário e, se o perfil tiver dados extras, grava esses dados também.
+// É tudo ou nada (transação): se a segunda gravação falhar, a primeira é desfeita.
+export async function criar(usuario, perfil) {
+  const conexao = await db.getConnection();
 
-export async function remover(id) {
-  const [result] = await db.query('DELETE FROM usuarios WHERE id = ?', [id]);
-  return result.affectedRows > 0;
-}
-
-// Cria o usuário e o perfil juntos: ou grava os dois, ou nenhum
-export async function criarComPerfil({ nome, email, senhaHash, tipo }, perfil) {
-  const conn = await db.getConnection();
   try {
-    await conn.beginTransaction();
+    await conexao.beginTransaction();
 
-    const [r] = await conn.query(
+    const [resultado] = await conexao.query(
       'INSERT INTO usuarios (nome, email, senha_hash, tipo) VALUES (?, ?, ?, ?)',
-      [nome, email, senhaHash, tipo]
+      [usuario.nome, usuario.email, usuario.senhaHash, usuario.tipo]
     );
-    const usuarioId = r.insertId;
+    const usuarioId = resultado.insertId;
 
-    if (tipo === 'franquia') {
-      await conn.query(
-        'INSERT INTO franquias (usuario_id, cnpj, nome_fantasia) VALUES (?, ?, ?)',
-        [usuarioId, perfil.cnpj, perfil.nomeFantasia]
-      );
-    } else {
-      await conn.query(
-        'INSERT INTO franqueados (usuario_id, tipo_pessoa, cpf, cnpj, razao_social) VALUES (?, ?, ?, ?, ?)',
-        [usuarioId, perfil.tipoPessoa, perfil.cpf ?? null, perfil.cnpj ?? null, perfil.razaoSocial ?? null]
+    if (usuario.tipo === 'franqueador') {
+      await conexao.query(
+        `INSERT INTO franqueadores
+           (usuario_id, sobrenome, idade, cpf, cep, rua, numero, complemento, bairro, cidade, estado)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          usuarioId, perfil.sobrenome, perfil.idade, perfil.cpf, perfil.cep, perfil.rua,
+          perfil.numero, perfil.complemento || null, perfil.bairro, perfil.cidade, perfil.estado,
+        ]
       );
     }
 
-    await conn.commit();
-    return { id: usuarioId, nome, email, tipo };
-  } catch (err) {
-    await conn.rollback(); // desfaz o usuário se o perfil falhar
-    throw err;
+    if (usuario.tipo === 'franqueado') {
+      await conexao.query(
+        'INSERT INTO franqueados (usuario_id, nome_unidade) VALUES (?, ?)',
+        [usuarioId, perfil.nomeUnidade]
+      );
+    }
+
+    await conexao.commit();
+    return { id: usuarioId, nome: usuario.nome, email: usuario.email, tipo: usuario.tipo };
+  } catch (erro) {
+    await conexao.rollback(); // desfaz o que foi gravado
+    throw erro;
   } finally {
-    conn.release();
+    conexao.release(); // devolve a conexão para o pool
   }
-}
+}
+
+export async function atualizar(id, { nome, email }) {
+  const [resultado] = await db.query(
+    'UPDATE usuarios SET nome = ?, email = ? WHERE id = ?',
+    [nome, email, id]
+  );
+  return resultado.affectedRows > 0;
+}
+
+export async function remover(id) {
+  const [resultado] = await db.query('DELETE FROM usuarios WHERE id = ?', [id]);
+  return resultado.affectedRows > 0;
+}
