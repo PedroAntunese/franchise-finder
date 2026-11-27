@@ -89,6 +89,34 @@ cd frontend
 npm ci
 ```
 
+## Banco de dados (migrations)
+
+A estrutura do banco é versionada com migrations do [Knex](https://knexjs.org/), na pasta `backend/migrations/`. O banco principal é o `FRANCHISEFINDER` no Aiven. Para criar ou atualizar as tabelas no banco configurado em `backend/.env`, rode:
+
+```powershell
+cd backend
+npm run migrate
+```
+
+Num banco vazio, isso cria as tabelas `usuarios`, `franquias` e `franqueados`. O Knex registra na tabela `knex_migrations` o que já rodou em cada banco, então rodar de novo só aplica as migrations novas.
+
+| Comando | O que faz |
+|---|---|
+| `npm run migrate` | Aplica as migrations que ainda não rodaram nesse banco. |
+| `npm run migrate:status` | Lista as migrations já aplicadas e as pendentes. |
+| `npm run migrate:make -- nome_da_mudanca` | Cria um arquivo novo em `migrations/` com data e hora no nome. |
+| `npm run migrate:rollback` | Desfaz o último lote aplicado. **Apaga tabelas e dados**: use só em banco local. |
+
+Para mudar o banco, crie uma migration nova com `up` (aplica a mudança) e `down` (desfaz). **Nunca edite uma migration que já rodou** no Aiven: os outros bancos não vão receber a mudança. Teste antes num MySQL local e combine com o time antes de rodar no Aiven, porque o banco é compartilhado.
+
+Para testar num MySQL local vazio, com Docker:
+
+```powershell
+docker run -d --name ff-mysql -e MYSQL_ROOT_PASSWORD=teste -e MYSQL_DATABASE=ff_local -p 3307:3306 mysql:8.4
+```
+
+Depois, no `backend/.env`, use `DB_HOST=127.0.0.1`, `DB_PORT=3307`, `DB_USER=root`, `DB_PASSWORD=teste`, `DB_NAME=ff_local` e `DB_CA_CERT=` (vazio, sem TLS) e rode `npm run migrate`. Volte os valores do Aiven quando terminar.
+
 ## Como rodar
 
 Abra dois terminais.
@@ -126,12 +154,13 @@ Todos os endpoints ficam sob `http://localhost:3001/api`.
 |---|---|---|---|
 | `POST` | `/auth/cadastro` | Não | Cadastra uma conta de `franquia` ou `franqueado`. |
 | `POST` | `/auth/login` | Não | Retorna o token JWT e os dados do usuário. |
+| `GET` | `/auth/eu` | Sim | Dados do usuário logado. Serve para conferir se o token ainda vale. |
 | `GET` | `/usuarios` | Sim | Lista os usuários. |
 | `GET` | `/usuarios/:id` | Sim | Busca um usuário pelo id. |
 | `PUT` | `/usuarios/:id` | Sim, só a própria conta | Atualiza nome e e-mail. |
 | `DELETE` | `/usuarios/:id` | Sim, só a própria conta | Remove a conta. |
 
-Nas rotas autenticadas, envie o token no cabeçalho `Authorization: Bearer <token>`.
+Nas rotas autenticadas, envie o token no cabeçalho `Authorization: Bearer <token>`. Todo erro volta como JSON no formato `{ "erro": "mensagem" }`, inclusive rota inexistente (404).
 
 ## Problemas comuns
 
@@ -141,13 +170,14 @@ Nas rotas autenticadas, envie o token no cabeçalho `Authorization: Bearer <toke
 | `Defina JWT_SECRET no .env` | O `JWT_SECRET` está vazio. | Gere um segredo (passo 3 do backend) e reinicie a API. |
 | `self-signed certificate in certificate chain` | O `DB_CA_CERT` está vazio, incompleto ou é de outro projeto do Aiven. | Gere o base64 de novo a partir do `ca.pem` do serviço certo. |
 | Timeout ao conectar | O IP da sua máquina não está liberado no Aiven. | Confira o **IP Filter** do serviço no console do Aiven. |
+| `Table '...usuarios' doesn't exist` | As tabelas ainda não foram criadas nesse banco. | Rode `npm run migrate` em `backend/`. |
 | `Cannot find package '...'` | Dependências não instaladas, ou instaladas na raiz. | Rode `npm ci` dentro de `backend/` ou `frontend/`. |
 
 ## Integração contínua (CI)
 
 Cada pull request e cada push na `main` rodam o workflow `.github/workflows/ci.yml` no GitHub Actions:
 
-- **Backend:** instala as dependências e verifica o código.
+- **Backend:** instala as dependências, verifica o código e roda `npm run migrate` num MySQL vazio criado só para o teste, conferindo que as tabelas `usuarios`, `franquias` e `franqueados` existem no final.
 - **Frontend:** instala as dependências, roda os testes e gera o build de produção.
 
 O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o resultado aparece no pull request e na aba **Actions** do repositório.
@@ -171,6 +201,8 @@ O CI não usa o banco do Aiven nem precisa de nenhum `.env`. Se um job falhar, o
 - `src/controller/`: recebe as requisições e devolve as respostas HTTP.
 - `src/services/`: regras de negócio (validação de cadastro, login, JWT).
 - `src/repositories/`: consultas ao banco.
+- `migrations/`: histórico da estrutura do banco, aplicado com `npm run migrate`.
+- `knexfile.js`: configuração do Knex para as migrations. Usa as mesmas variáveis `DB_*` do `.env`.
 - `src/middlewares/`: autenticação, autorização e tratamento de erros.
 - `src/utils/`: funções auxiliares (validação de CPF e CNPJ, classe de erro da aplicação).
 

@@ -10,13 +10,18 @@ function lerCertificadoCA() {
 
 const ca = lerCertificadoCA();
 
-const pool = mysql.createPool({
+// Dados de acesso ao banco, lidos do .env. Também usados pelo knexfile.js (migrations).
+export const opcoesConexao = {
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT) || 3306,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   ssl: ca ? { ca } : undefined,
+};
+
+const pool = mysql.createPool({
+  ...opcoesConexao,
   waitForConnections: true,
   connectionLimit: 10,
 });

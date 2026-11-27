@@ -52,8 +52,9 @@ export async function cadastrar(dados) {
     return await repo.criarComPerfil({ nome, email, senhaHash, tipo }, perfil);
   } catch (err) {
     if (err.code === 'ER_DUP_ENTRY') {
-      const msg = err.sqlMessage || '';
-      const campo = msg.includes('cpf') ? 'CPF' : msg.includes('cnpj') ? 'CNPJ' : 'Email';
+      // Ex.: "Duplicate entry '...' for key 'franqueados.uq_franqueados_cpf'" (chaves no schema.sql)
+      const chave = (err.sqlMessage || '').split(' for key ').pop();
+      const campo = chave.includes('cpf') ? 'CPF' : chave.includes('cnpj') ? 'CNPJ' : 'Email';
       throw new AppError(`${campo} já cadastrado`, 409);
     }
     throw err;

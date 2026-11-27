@@ -1,6 +1,6 @@
 import db from '../config/db.js';
 
-const CAMPOS = 'id, nome, email, criado_em'; // nunca devolve senha_hash
+const CAMPOS = 'id, nome, email, tipo, criado_em'; // nunca devolve senha_hash
 
 export async function listar() {
   const [rows] = await db.query(`SELECT ${CAMPOS} FROM usuarios ORDER BY id DESC`);
@@ -16,14 +16,6 @@ export async function buscarPorId(id) {
 export async function buscarPorEmail(email) {
   const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
   return rows[0];
-}
-
-export async function criar({ nome, email, senhaHash }) {
-  const [result] = await db.query(
-    'INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)',
-    [nome, email, senhaHash]
-  );
-  return { id: result.insertId, nome, email };
 }
 
 export async function atualizar(id, { nome, email }) {
@@ -71,4 +63,4 @@ export async function criarComPerfil({ nome, email, senhaHash, tipo }, perfil) {
   } finally {
     conn.release();
   }
-}
+}
